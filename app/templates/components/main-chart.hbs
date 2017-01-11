@@ -1,1 +1,8 @@
-<canvas id="myChart" width="400" height="400"></canvas>
+<div class="col-md-8">
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>
+<div class="col-md-4">
+    {{date-picker data=data onDateChanged=(action 'dateDidChange')}}
+    <br>
+    {{full-range-button onButtonPressed=(action 'resetDateRange')}}
+</div>
