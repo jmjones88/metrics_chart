@@ -49,11 +49,11 @@ const MainChartComponent = Ember.Component.extend({
             //Update the variable, which will notify the child component
             Ember.set(this, 'resetButtonClicked', true);
             this.setInitialChartData();
-            Ember.set(this, 'resetButtonClicked', false);
         }
     },
     didRender() {
         //Only want this render event to fire when the chart doesn't exist
+        Ember.set(this, 'resetButtonClicked', false);
         if(this.myChart === null)
         {
             this.setInitialChartData();
