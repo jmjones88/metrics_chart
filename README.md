@@ -1,6 +1,10 @@
 # metrics-chart
 
-This is a sample of a metrics chart using Ember, Chart.js, and moment.
+This is a sample of a metrics chart using Ember, Chart.js, and moment, parsing local json data.
+
+To diable data for low or high tempuratures or both, click on the corresponding legend. To reset data, click the `Show Full Range` button.
+
+For a demo: https://jmjones88.github.io/metrics_chart/
 
 ## Prerequisites
 
