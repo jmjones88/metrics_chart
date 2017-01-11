@@ -12,23 +12,28 @@ export default Ember.Component.extend({
     },
      didUpdateAttrs() {
         this._super(...arguments);
-        let highLabels = this.highData.weather.map(function(data) {
-            return data.date;
-        });
-        let lowLabels = this.lowData.weather.map(function(data) {
-            return data.date;
-        });
-        this.$('input[name="daterange"]').data('daterangepicker').setStartDate(moment(highLabels[0]));
-        this.$('input[name="daterange"]').data('daterangepicker').setEndDate(moment(highLabels[highLabels.length - 1]));
+        this.initializeDatePicker();
      },
     didRender() {
         //Get the dates and put in array format, to set the start and end date
+        this.initializeDatePicker();
+    },
+    initializeDatePicker() {
+        //Sort the objects
+        this.highData.weather.sort(function(a, b) {
+            return new Date(a.date) - new Date(b.date);
+        });
+        this.lowData.weather.sort(function(a, b) {
+            return new Date(a.date) - new Date(b.date);
+        });
         let highLabels = this.highData.weather.map(function(data) {
             return data.date;
         });
         let lowLabels = this.lowData.weather.map(function(data) {
             return data.date;
         });
+        let startDate = moment(highLabels[0]) <= moment(lowLabels[0]) ? moment(highLabels[0]) : moment(lowLabels[0]);
+        let endDate = moment(highLabels[highLabels.length - 1]) >= moment(lowLabels[lowLabels.length - 1]) ? moment(highLabels[highLabels.length - 1]) : moment(lowLabels[lowLabels.length - 1]);
         //Save the reference to the current object
         var that = this;
         this.$('input[name="daterange"]').daterangepicker(
@@ -36,10 +41,10 @@ export default Ember.Component.extend({
                 locale: {
                     format: 'YYYY-MM-DD'
                 },
-                startDate: highLabels[0],
-                endDate: highLabels[highLabels.length - 1]
+                startDate: startDate,
+                endDate: endDate
             },
-            function(start, end, label) {
+            function(start, end) {
                 //On a date change, send the action to the action method
                 that.sendAction('onDateChanged', 
                 {startDate: start.format('YYYY-MM-DD'), endDate: end.format('YYYY-MM-DD')});

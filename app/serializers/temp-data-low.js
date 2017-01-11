@@ -1,9 +1,7 @@
 import DS from 'ember-data';
-import Ember from 'ember';
-
 
 export default DS.JSONAPISerializer.extend({
-     normalizeResponse(store, primaryModelClass, payload, id, requestType) {
+     normalizeResponse(store, primaryModelClass, payload) {
          //Since the data sent back is not in a JSON API format, this converts it into an expected format
          var json = payload.result.site;
          payload.data = {};

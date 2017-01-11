@@ -63,6 +63,13 @@ const MainChartComponent = Ember.Component.extend({
     setInitialChartData() {
         var ctx = document.getElementById("myChart");
         //Build the data, starting from the labels
+        //Sort the array data
+        this.highData.weather.sort(function(a, b) {
+            return moment(a.date) - moment(b.date);
+        });
+        this.lowData.weather.sort(function(a, b) {
+            return moment(a.date) - moment(b.date);
+        });
         let highLabels = this.highData.weather.map(function(data) {
             return data.date;
         });
@@ -75,11 +82,16 @@ const MainChartComponent = Ember.Component.extend({
         let lowData = this.lowData.weather.map(function(data) {
             return data.low_temp;
         });
+        //More of a theoretical comparison to pick which labels we shouild used based on min and maxes
+        let labels = highLabels;
+        if(moment(lowLabels[0]) < moment(highLabels[0]) && moment(lowLabels[lowLabels.length - 1]) > moment(highLabels[highLabels.length - 1])){
+            labels = lowLabels;
+        }
         //Initialize the chart object
         this.myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: highLabels,
+                labels: labels,
                 datasets: [
                     {
                         label: "High Temperatures",
