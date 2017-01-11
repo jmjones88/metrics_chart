@@ -6,12 +6,14 @@ const MainChartComponent = Ember.Component.extend({
     highData: null,
     lowData: null,
     myChart: null,
+    resetButtonClicked: false,
     didReceiveAttrs() {
         this._super(...arguments);
         //Assign the recieved attributes
         this.data = this.get('data');
-        this.highData = this.data.high_temps;
-        this.lowData = this.data.low_temps;
+        //get the data from the model
+        this.highData = this.data.high_temps.content[0]._data;
+        this.lowData = this.data.low_temps.content[0]._data;
     },
     actions: {
          dateDidChange(params) {
@@ -19,23 +21,23 @@ const MainChartComponent = Ember.Component.extend({
              if(params.startDate && params.endDate) {
                  let highData = [], highLabels = [];
                  //Loop over each data set and find date in range
-                 for(let data of this.highData.content[0]._data.weather) {
+                 this.highData.weather.forEach((data) => {
                      if(data.date >= params.startDate && data.date <= params.endDate)
                      {
                          //add to high data array
                          highData.push(data.high_temp);
                          highLabels.push(data.date);
                      }
-                }
+                });
                 let lowData = [], lowLabels = [];
-                for(let data of this.lowData.content[0]._data.weather) {
+                this.lowData.weather.forEach((data) => {
                     if(data.date >= params.startDate && data.date <= params.endDate)
                      {
                          //add to high data array
                          lowData.push(data.low_temp);
                          lowLabels.push(data.date);
                      }
-                }
+                });
                 //Update the labels and update the chart
                 this.myChart.data.labels = highLabels;
                 this.myChart.data.datasets[0].data = highData;
@@ -44,26 +46,36 @@ const MainChartComponent = Ember.Component.extend({
              }
         },
         resetDateRange() {
-            console.log("reset data range");
+            //Update the variable, which will notify the child component
+            Ember.set(this, 'resetButtonClicked', true);
+            this.setInitialChartData();
+            Ember.set(this, 'resetButtonClicked', false);
         }
     },
     didRender() {
-        /*var blogPosts = store.find('data/temp_data_low.json');
-        console.log(blogPosts); */
+        //Only want this render event to fire when the chart doesn't exist
+        if(this.myChart === null)
+        {
+            this.setInitialChartData();
+        }
+    },
+    //Helper function to Initialize chart data
+    setInitialChartData() {
         var ctx = document.getElementById("myChart");
         //Build the data, starting from the labels
-        let highLabels = this.highData.content[0]._data.weather.map(function(data) {
+        let highLabels = this.highData.weather.map(function(data) {
             return data.date;
         });
-        let highData = this.highData.content[0]._data.weather.map(function(data) {
+        let highData = this.highData.weather.map(function(data) {
             return data.high_temp;
         });
-        let lowLabels = this.lowData.content[0]._data.weather.map(function(data) {
+        let lowLabels = this.lowData.weather.map(function(data) {
             return data.date;
         });
-        let lowData = this.lowData.content[0]._data.weather.map(function(data) {
+        let lowData = this.lowData.weather.map(function(data) {
             return data.low_temp;
         });
+        //Initialize the chart object
         this.myChart = new Chart(ctx, {
             type: 'line',
             data: {
