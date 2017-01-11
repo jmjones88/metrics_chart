@@ -85627,9 +85627,9 @@ return hooks;
 
 })));
 
-},{}],"/Users/julianmjones/Sites/metrics-chart/tmp/core_object-input_staging-XK1wuiTW.tmp/browserify_stubs.js":[function(require,module,exports){
+},{}],"/Users/julianmjones/Sites/metrics-chart/tmp/core_object-input_staging-V4N3KDrx.tmp/browserify_stubs.js":[function(require,module,exports){
 define('npm:chart.js', function(){ return { 'default': require('chart.js')};})
-},{"chart.js":"/Users/julianmjones/Sites/metrics-chart/node_modules/chart.js/src/chart.js"}]},{},["/Users/julianmjones/Sites/metrics-chart/tmp/core_object-input_staging-XK1wuiTW.tmp/browserify_stubs.js"]);
+},{"chart.js":"/Users/julianmjones/Sites/metrics-chart/node_modules/chart.js/src/chart.js"}]},{},["/Users/julianmjones/Sites/metrics-chart/tmp/core_object-input_staging-V4N3KDrx.tmp/browserify_stubs.js"]);
 
 ;/* globals define */
 define('ember/load-initializers', ['exports', 'ember-load-initializers', 'ember'], function(exports, loadInitializers, Ember) {

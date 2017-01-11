@@ -529,7 +529,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("metrics-chart/app")["default"].create({"name":"metrics-chart","version":"0.0.0+619848ad"});
+  require("metrics-chart/app")["default"].create({"name":"metrics-chart","version":"0.0.0+b9f00011"});
 }
 
 /* jshint ignore:end */
